@@ -22,12 +22,12 @@ pipeline {
                 script{
                   switch(params.compileTool)
                     {
-                        case 'Maven':
+                        case 'maven':
                             //def ejecucion = load 'maven.groovy'
                             //ejecucion.call()
 			    maven.call(params.stages)
                         break;
-                        case 'Gradle':
+                        case 'gradle':
                             //def ejecucion = load 'gradle.groovy'
                             //ejecucion.call()
 			    gradle.call(params.stages)
