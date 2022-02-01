@@ -20,7 +20,7 @@ pipeline {
         )
     }
     stages {
-        stage("Pipeline"){
+        stage("pipeline"){
             steps {
                 script{
                   switch(params.compileTool)
