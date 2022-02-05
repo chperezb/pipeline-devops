@@ -19,7 +19,7 @@ pipeline {
         stage("pipeline"){
             steps {
                 script{
-		  def is_ci_or_cd = verifyBranchName()
+		  def is_ci_or_cd = checkBranch()
                   figlet is_ci_or_cd;
                   switch(params.compileTool)
                     {
