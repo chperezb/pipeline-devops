@@ -19,6 +19,7 @@ pipeline {
         stage("pipeline"){
             steps {
                 script{
+		  figlet params.compileTool
 		  def is_ci_or_cd = checkBranch()
                   figlet is_ci_or_cd;
                   switch(params.compileTool)
