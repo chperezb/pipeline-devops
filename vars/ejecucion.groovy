@@ -14,7 +14,6 @@ pipeline {
     }
     parameters {
             choice choices: ['maven', 'gradle'], description: 'Seleccione una herramienta para preceder a compilar', name: 'compileTool'
-            text description: 'Enviar los stages separados por ";"... Vacío si necesita todos los stages', name: 'stages'
     }
     stages {
         stage("pipeline"){
