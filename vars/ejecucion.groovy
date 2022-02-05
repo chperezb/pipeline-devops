@@ -20,17 +20,19 @@ pipeline {
         stage("pipeline"){
             steps {
                 script{
+		  def is_ci_or_cd = verifyBranchName()
+                  figlet is_ci_or_cd;
                   switch(params.compileTool)
                     {
                         case 'maven':
                             //def ejecucion = load 'maven.groovy'
                             //ejecucion.call()
-			    maven.call(params.stages)
+			    maven.call(checkBranch())
                         break;
                         case 'gradle':
                             //def ejecucion = load 'gradle.groovy'
                             //ejecucion.call()
-			    gradle.call(params.stages)
+			    gradle.call(checkBranch())
                         break;
                     }
                 }
@@ -47,6 +49,14 @@ pipeline {
     }
 }
 
+}
+
+def checkBranch(){
+	if(env.GIT_BRANCH.contains('feature') || env.GIT_BRANCH.contains('develop')) {
+		return 'CI'
+	} else {
+		return 'CD'
+	}
 }
 
 return this;

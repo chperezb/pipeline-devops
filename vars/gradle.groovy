@@ -1,65 +1,16 @@
 import utilities.*
 
-def call(stages){
+def call(String pipelineType){
 
-    //def stagesList = stages.split(";")
-    // stagesList.each{
-    //     println("===>${it}")
-    //     "${it}"()
-
-    // }
-
-   def listStagesOrder = [
-        'build': 'stageCleanBuildTest',
-        'sonar': 'stageSonar',
-        'curl_spring': 'stageRunSpringCurl',
-        'upload_nexus': 'stageUploadNexus',
-        'download_nexus': 'stageDownloadNexus',
-        'run_jar': 'stageRunJar',
-        'curl_jar': 'stageCurlJar'
-    ]
-
-    def arrayUtils = new array.arrayExtentions();
-    def stagesArray = []
-        stagesArray = arrayUtils.searchKeyInArray(stages, ";", listStagesOrder)
-
-    if (stagesArray.isEmpty()) {
-        echo 'El pipeline se ejecutará completo'
-        allStages()
+def call(String pipelineType){
+    figlet pipelineType
+    if (pipelineType == 'CI') {
+	runCI()
     } else {
-        echo 'Stages a ejecutar :' + stages
-        stagesArray.each{ stageFunction ->//variable as param
-            echo 'Ejecutando ' + stageFunction
-            "${stageFunction}"()
-        }
+	runCD()
     }
-
-//     if (stages.isEmpty()) {
-//         echo 'El pipeline se ejecutará completo'
-//         allStages()
-//     } else {
-//         echo 'Stages a ejecutar :' + stages
-//         listStagesOrder.each { stageName, stageFunction ->
-//             stagesList.each{ stageToExecute ->//variable as param
-//                 if(stageName.equals(stageToExecute)){
-//                 echo 'Ejecutando ' + stageFunction
-//                 "${stageFunction}"()
-//                 }
-//             }
-//         }
-// 
-//     }
 }
 
-def allStages(){
-    stageCleanBuildTest()
-    stageSonar()
-    stageRunSpringCurl()
-    stageUploadNexus()
-    stageDownloadNexus()
-    stageRunJar()
-    stageCurlJar()
-}
 
 def stageCleanBuildTest(){
     env.TAREA = "Paso 1: Build && Test"
@@ -135,4 +86,19 @@ def stageCurlJar(){
         sh "sleep 60 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
     }
 }
+
+
+def runCI(){
+    stageCleanBuildTest()
+    stageSonar()
+    stageRunJar()
+    stageUploadNexus()
+}
+
+def runCD(){
+    stageDownloadNexus()
+    stageRunJar()
+    stageUploadNexus()
+}
+
 return this;
