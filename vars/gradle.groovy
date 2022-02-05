@@ -1,8 +1,6 @@
 import utilities.*
 
 def call(String pipelineType){
-
-def call(String pipelineType){
     figlet pipelineType
     if (pipelineType == 'CI') {
 	runCI()
@@ -64,6 +62,7 @@ def stageUploadNexus(){
         ]
     }
 }
+
 def stageDownloadNexus(){
     // env.TAREA="Paso 3: Curl Springboot Gradle sleep 20"
     // stage("$env.TAREA"){
